@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 """
-Lists all states from the 'hbtn_0e_0_usa' database.
+Lists all cities and their corresponding states,
+from the 'hbtn_0e_0_usa' database.
 """
 import MySQLdb
 import sys
@@ -19,7 +20,11 @@ if __name__ == "__main__":
     cur = db.cursor()
 
     # Execute the query
-    query = "SELECT * FROM states"
+    query = """
+    SELECT cities.id, cities.name, states.name
+    FROM cities
+    INNER JOIN states ON states.id = cities.state_id
+    """
     cur.execute(query)
 
     # Fetch and display results

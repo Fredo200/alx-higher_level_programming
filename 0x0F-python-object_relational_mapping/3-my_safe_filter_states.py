@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 """
-Lists all states from the 'hbtn_0e_0_usa' database.
+Lists all states from the 'hbtn_0e_0_usa' database,
+that match a provided name pattern.
 """
 import MySQLdb
 import sys
@@ -18,9 +19,12 @@ if __name__ == "__main__":
     # Create a cursor
     cur = db.cursor()
 
+    # Get the name pattern to match
+    match = sys.argv[4]
+
     # Execute the query
-    query = "SELECT * FROM states"
-    cur.execute(query)
+    query = "SELECT * FROM states WHERE name LIKE %s"
+    cur.execute(query, (match, ))
 
     # Fetch and display results
     rows = cur.fetchall()

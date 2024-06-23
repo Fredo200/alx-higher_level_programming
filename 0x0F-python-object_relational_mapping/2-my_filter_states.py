@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 """
-Lists all states from the 'hbtn_0e_0_usa' database.
+Lists all states from the 'hbtn_0e_0_usa' database based,
+on a provided name pattern.
 """
 import MySQLdb
 import sys
@@ -19,7 +20,10 @@ if __name__ == "__main__":
     cur = db.cursor()
 
     # Execute the query
-    query = "SELECT * FROM states"
+    name_pattern = sys.argv[4]
+    query = (
+        "SELECT * FROM states WHERE name LIKE BINARY '{}'".format(name_pattern)
+    )
     cur.execute(query)
 
     # Fetch and display results

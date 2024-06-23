@@ -6,7 +6,7 @@ import MySQLdb
 import sys
 
 if __name__ == "__main__":
-    # Establish a database connection
+    # Connect to the database
     db = MySQLdb.connect(
         host="localhost",
         user=sys.argv[1],
@@ -19,7 +19,12 @@ if __name__ == "__main__":
     cur = db.cursor()
 
     # Execute the query
-    query = "SELECT * FROM states"
+    query = """
+    SELECT *
+    FROM states
+    WHERE name LIKE BINARY 'N%'
+    ORDER BY states.id
+    """
     cur.execute(query)
 
     # Fetch and display results
