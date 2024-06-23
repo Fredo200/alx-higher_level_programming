@@ -1,20 +1,21 @@
 #!/usr/bin/python3
 """
-Starts a link class to a table in the database.
+Contains the State class and Base, an instance of declarative_base().
 """
-import sys
-from model_state import Base, State
-from sqlalchemy import create_engine
+from sqlalchemy import Column, Integer, String, MetaData
+from sqlalchemy.ext.declarative import declarative_base
 
-if __name__ == "__main__":
-    # Create a database engine
-    db_user = sys.argv[1]
-    db_password = sys.argv[2]
-    db_name = sys.argv[3]
-    db_connection_string = """
-    f'mysql+mysqldb://{db_user}:{db_password}@localhost/{db_name}'
+# Define a custom metadata instance
+mymetadata = MetaData()
+Base = declarative_base(metadata=mymetadata)
+
+
+class State(Base):
     """
-    engine = create_engine(db_connection_string, pool_pre_ping=True)
+    Class representing each state with id and name attributes.
+    """
+    __tablename__ = 'states'
 
-    # Create the required tables if they don't exist
-    Base.metadata.create_all(engine)
+    # Define attributes/columns
+    id = Column(Integer, unique=True, nullable=False, primary_key=True)
+    name = Column(String(128), nullable=False)
